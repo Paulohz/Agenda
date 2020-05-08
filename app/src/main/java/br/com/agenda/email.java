@@ -30,7 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class email extends AppCompatActivity {
-    private ArrayList<Contato> contatos;
+    private ArrayList<Contato> contatos = new ArrayList<Contato>();
     private ProgressDialog progressDialog ;
 
     @Override
@@ -39,7 +39,7 @@ public class email extends AppCompatActivity {
         setContentView(R.layout.activity_email);
         lerJSON();
 
-        /*final ArrayAdapter<Contato> myadapter = new ArrayAdapter<Contato>(
+        final ArrayAdapter<Contato> myadapter = new ArrayAdapter<Contato>(
                 getApplicationContext(),
                 R.layout.item_list,
                 R.id.listContatos,
@@ -56,7 +56,7 @@ public class email extends AppCompatActivity {
                         ""+myadapter.getItem(position),
                         Toast.LENGTH_SHORT).show();
             }
-        });*/
+        });
     }
 
 

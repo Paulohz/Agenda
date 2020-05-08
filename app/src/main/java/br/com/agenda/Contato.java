@@ -10,14 +10,8 @@ public class Contato {
 
     @Override
     public String toString() {
-        return "Contato{" +
-                "id='" + id + '\'' +
-                ", nomecontato='" + nomecontato + '\'' +
-                ", email='" + email + '\'' +
-                ", endereco='" + endereco + '\'' +
-                ", genero='" + genero + '\'' +
-                ", celular='" + celular + '\'' +
-                '}';
+        return nomecontato +
+                " / " + celular;
     }
 
     public Contato(){

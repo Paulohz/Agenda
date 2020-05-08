@@ -1,16 +1,22 @@
 package br.com.agenda;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,14 +30,14 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class fone extends AppCompatActivity {
 
     final int  PERMISSIONS_CALL_PHONE_ID= 1;
     boolean permissions_call_phone_value = false;
+    private ArrayList<Contato> contatos = new ArrayList<Contato>();
     private ProgressDialog progressDialog ;
-
-    private ArrayList<Contato> contatos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,8 @@ public class fone extends AppCompatActivity {
         }
 
         lerFone();
+
+
     }
 
 
@@ -72,29 +80,63 @@ public class fone extends AppCompatActivity {
     }
 
     public void mostrarJSONFone(String strjson){
-        ((TextView)findViewById(R.id.dados)).setText(strjson);
+        //((TextView)findViewById(R.id.dados)).setText(strjson);
         //recebe uma String com os dados do JSON
-        Contato contato = null;
+        List<Contato> contatos = new ArrayList<>();
         try {
             JSONObject objRaiz = new JSONObject(strjson);
             JSONArray jsonArray = objRaiz.optJSONArray("listacontatos");
             JSONObject jsonObject = null;
             //percorre o vetor de funcionarios e pega o nome para imprimir
+            Contato contato = null;
             for(int i=0; i < jsonArray.length(); i++){
                 contato = new Contato();
+
                 jsonObject = jsonArray.getJSONObject(i);
                 contato.setId(jsonObject.optString("id"));
                 contato.setNomecontato(jsonObject.optString("nomecontato"));
-
+                contato.setCelular(jsonObject.optString("celular"));
+                contatos.add(contato);
                 jsonObject = null;
             }
 
 
+
+                final ArrayAdapter<Contato> myadapter = new ArrayAdapter<Contato>(
+                        getApplicationContext(),
+                        R.layout.item_list,
+                        R.id.item_list,
+                        contatos);
+
+                ListView lista = (ListView) findViewById(R.id.listContatosFone);
+                lista.setAdapter(myadapter);
+
+                lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        //Toast.makeText(getApplicationContext(), "Item= " + myadapter.getItem(position),
+                        //Toast.LENGTH_SHORT).show();
+                        //  mostraDadosDoAluno(nomes[position]); //para mostrar dados do aluno "clicado"
+
+                        if(ContextCompat.checkSelfPermission(getApplicationContext() , Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+                            Toast.makeText(getApplicationContext(), "\nAs ligações não foram autorizadas neste aparelho.\n", Toast.LENGTH_LONG).show();
+
+                        }else {
+                            String cel = "tel:" + ((Contato)parent.getAdapter().getItem(position)).getCelular();
+                            startActivity(new Intent(
+                                    Intent.ACTION_CALL,
+                                    Uri.parse(cel)));
+                        }
+                    }
+                });
             progressDialog.dismiss();
         } catch (JSONException e) {
+
         }
         finally { progressDialog.dismiss(); }
     }
+
+
 
     private class DownloadJson extends AsyncTask<String, Void, String> {
         @Override
