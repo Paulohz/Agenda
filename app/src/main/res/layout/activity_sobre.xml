@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".sobre">
+
+    <ScrollView
+        android:layout_width="411dp"
+        android:layout_height="732dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_titulo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="serif-monospace"
+                android:text="Membros - jopala"
+                android:textColor="#000000"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/txt_nome_joao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="30dp"
+                android:fontFamily="serif-monospace"
+                android:text="João Carlos Roche Lima             Rgm: 17433258"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_nome_lucas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="serif-monospace"
+                android:text="Lucas Santos de Almeida            Rgm: 17226791 "
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_nome_paulo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:fontFamily="serif-monospace"
+                android:text="Paulo Henrique Alves da Costa      Rgm: 17377412"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="581dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="serif-monospace"
+                android:text="Esse projeto foi desenvolvido pela solicitação do prof. Manuel Fernandes (Programação para dispositivo móvel) O nome do projeto foi dado por “Agenda - jopala”, um acrônimo com as iniciais dos integrantes, o objetivo do trabalho consciente em construir quatro telas, e-mail, fone, inicial, sobre consumindo uma api (http://mfpledon.com.br/listadecontatos.json). Itens obrigatórios: Tela inicial deve ter três botões direcionando para as telas “e-mail, fone e sobre”. Na tela e-mail, deve ser mostrado o nome do contato mais o e-mail do contato, quando você clicar no contato, deve abrir o aplicativo para envio do e-mail. Na tela fone, deve ser mostrado o nome do contato mais o telefone do contato, quando você clicar no contato, deve abrir o aplicativo para efetuar a lição. "
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
