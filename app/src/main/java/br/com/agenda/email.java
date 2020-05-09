@@ -1,6 +1,7 @@
 package br.com.agenda;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.ProgressDialog;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,8 +30,10 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class email extends AppCompatActivity {
+
     private ArrayList<Contato> contatos = new ArrayList<Contato>();
     private ProgressDialog progressDialog ;
 
@@ -37,39 +41,31 @@ public class email extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email);
-        lerJSON();
+/*
+        if (checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, PERMISSIONS_CALL_PHONE_ID);
+        }else{
+            permissions_call_phone_value = true;
+        }
+*/
+        lerFone();
 
-        final ArrayAdapter<Contato> myadapter = new ArrayAdapter<Contato>(
-                getApplicationContext(),
-                R.layout.item_list,
-                R.id.listContatos,
-                contatos);
 
-        ListView lista = (ListView)findViewById(R.id.listContatos);
-        lista.setAdapter(myadapter);
-
-        lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent,
-                                    View view, int position, long id) {
-                Toast.makeText(getApplicationContext(),
-                        ""+myadapter.getItem(position),
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
 
-
-    public void lerJSON() {  //este método atende o evento de click no botão Funcionários
+    public void lerFone() {
         if (checkInternetConection()){
-            progressDialog = ProgressDialog.show(this, "", "Baixando dados");
+            progressDialog = ProgressDialog.show(this, "", "Obtendo dados");
             new DownloadJson().execute("http://mfpledon.com.br/listadecontatos.json");
+            //para aparelhos reais, pode usar o endereço http://mfpledon.com.br/paisesbck.json
+
         } else{
             Toast.makeText(getApplicationContext(),"Sem conexão. Verifique.",Toast.LENGTH_LONG).show();
         }
     }
 
+    @SuppressWarnings("deprecation")
     public boolean checkInternetConection() {
         ConnectivityManager connMgr = (ConnectivityManager)
                 getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -81,32 +77,61 @@ public class email extends AppCompatActivity {
         }
     }
 
-    public void mostrarJSONReceita(String strjson){
+    public void mostrarJSONFone(String strjson){
+        //((TextView)findViewById(R.id.dados)).setText(strjson);
         //recebe uma String com os dados do JSON
-        String data = "";
-        Contato contato = null;
-        contatos = new ArrayList<Contato>();
+         contatos = new ArrayList<>();
         try {
             JSONObject objRaiz = new JSONObject(strjson);
             JSONArray jsonArray = objRaiz.optJSONArray("listacontatos");
             JSONObject jsonObject = null;
             //percorre o vetor de funcionarios e pega o nome para imprimir
+            Contato contato = null;
             for(int i=0; i < jsonArray.length(); i++){
-                jsonObject = jsonArray.getJSONObject(i);
                 contato = new Contato();
+
+                jsonObject = jsonArray.getJSONObject(i);
                 contato.setId(jsonObject.optString("id"));
                 contato.setNomecontato(jsonObject.optString("nomecontato"));
                 contato.setEmail(jsonObject.optString("email"));
-                contato.setEndereco(jsonObject.optString("endereco"));
-                contato.setGenero(jsonObject.optString("genero"));
-                contato.setCelular(jsonObject.optString("celular"));
-
+                contatos.add(contato);
                 jsonObject = null;
             }
-           // ((TextView)findViewById(R.id.dados)).setText(data);
+
+            CustomListAdapter customAdapter = new CustomListAdapter(
+                    this,
+                    R.layout.item_list,
+                    contatos);
+
+            ListView lista = (ListView) findViewById(R.id.listContatos);
+            lista.setAdapter(customAdapter);
+
+            lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //Toast.makeText(getApplicationContext(), "Item= " + myadapter.getItem(position),
+                    //Toast.LENGTH_SHORT).show();
+                    //  mostraDadosDoAluno(nomes[position]); //para mostrar dados do aluno "clicado"
+
+                    if(ContextCompat.checkSelfPermission(getApplicationContext() , Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+                        Toast.makeText(getApplicationContext(), "\nAs ligações não foram autorizadas neste aparelho.\n", Toast.LENGTH_LONG).show();
+
+                    }else {
+                        String cel = "tel:" + ((Contato)parent.getAdapter().getItem(position)).getCelular();
+                        startActivity(new Intent(
+                                Intent.ACTION_CALL,
+                                Uri.parse(cel)));
+                    }
+                }
+            });
             progressDialog.dismiss();
-        } catch (JSONException e) {}
+        } catch (JSONException e) {
+
+        }
+        finally { progressDialog.dismiss(); }
     }
+
+
 
     private class DownloadJson extends AsyncTask<String, Void, String> {
         @Override
@@ -122,7 +147,7 @@ public class email extends AppCompatActivity {
         // onPostExecute exibe o resultado do AsyncTask
         @Override
         protected void onPostExecute(String result) {
-            mostrarJSONReceita(result);
+            mostrarJSONFone(result);
         }
 
         private String downloadJSON(String myurl) throws IOException {

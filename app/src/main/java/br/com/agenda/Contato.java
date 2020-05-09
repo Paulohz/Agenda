@@ -14,6 +14,11 @@ public class Contato {
                 "\n" + celular;
     }
 
+    public String toString2() {
+        return nomecontato +
+                " / " + email;
+    }
+
     public Contato(){
 
     }
