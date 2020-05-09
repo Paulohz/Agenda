@@ -11,7 +11,7 @@ public class Contato {
     @Override
     public String toString() {
         return nomecontato +
-                " / " + celular;
+                "\n" + celular;
     }
 
     public Contato(){
