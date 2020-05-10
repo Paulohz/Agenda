@@ -4,8 +4,13 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layout_margin="5dp"
-    android:background="@drawable/shape"  >
+    >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape"
+        android:layout_marginTop="15dp">
 
 <ImageView
     android:id="@+id/imagem"
@@ -13,7 +18,7 @@
     android:layout_height="100px"
     android:layout_marginLeft="4px"
     android:layout_marginRight="10px"
-    android:layout_marginTop="4px"
+    android:paddingTop="15dp"
     android:src="@drawable/iconb" >
 </ImageView>
 
@@ -24,5 +29,5 @@
     android:text="@+id/label"
     android:textSize="50px" >
 </TextView>
-
+    </LinearLayout>
 </LinearLayout>

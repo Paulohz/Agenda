@@ -82,7 +82,7 @@ public class fone extends AppCompatActivity {
     public void mostrarJSONFone(String strjson){
         //((TextView)findViewById(R.id.dados)).setText(strjson);
         //recebe uma String com os dados do JSON
-        List<Contato> contatos = new ArrayList<>();
+        //ArrayList<Contato> contatos = new ArrayList<>();
         try {
             JSONObject objRaiz = new JSONObject(strjson);
             JSONArray jsonArray = objRaiz.optJSONArray("listacontatos");
@@ -100,16 +100,13 @@ public class fone extends AppCompatActivity {
                 jsonObject = null;
             }
 
-
-
-                final ArrayAdapter<Contato> myadapter = new ArrayAdapter<Contato>(
-                        getApplicationContext(),
-                        R.layout.item_list,
-                        R.id.item_list,
-                        contatos);
+            CustomListAdapter customAdapter = new CustomListAdapter(
+                    this,
+                    R.layout.item_list,
+                    contatos);
 
                 ListView lista = (ListView) findViewById(R.id.listContatosFone);
-                lista.setAdapter(myadapter);
+                lista.setAdapter(customAdapter);
 
                 lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override

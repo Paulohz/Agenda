@@ -35,11 +35,17 @@ public class CustomListAdapter extends ArrayAdapter<Contato> {
         Contato c = getItem(position);
 
             TextView texto = (TextView) v.findViewById(R.id.item_list);
-            texto.setText(c.toString2());
+            if(mContext.getClass().getSimpleName().equals("email")){
+                texto.setText(c.toString2());
+            }else{
+                texto.setText(c.toString());
+            }
 
             ImageView i = v.findViewById(R.id.imagem);
 
             int numero = new Random().nextInt(3);
+
+
 
             switch (numero){
                 case 0: i.setImageResource(R.drawable.icona);break; //verde

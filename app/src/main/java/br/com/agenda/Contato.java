@@ -16,7 +16,7 @@ public class Contato {
 
     public String toString2() {
         return nomecontato +
-                " / " + email;
+                "\n" + email;
     }
 
     public Contato(){

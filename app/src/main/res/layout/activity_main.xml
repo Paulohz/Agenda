@@ -9,31 +9,31 @@
 
     <Button
         android:id="@+id/btnFone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="168dp"
-        android:text="FONES"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/telefone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="168dp"
-        android:text="E-MAILS"
-        app:layout_constraintStart_toEndOf="@+id/btnFone"
+        android:layout_width="140dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="85dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/email"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnSobre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="161dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginTop="80dp"
-        android:text="SOBRE"
+        android:background="@drawable/iconusers"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnFone" />
 </androidx.constraintlayout.widget.ConstraintLayout>
