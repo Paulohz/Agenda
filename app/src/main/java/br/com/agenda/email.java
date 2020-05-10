@@ -41,20 +41,13 @@ public class email extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_email);
-/*
-        if (checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, PERMISSIONS_CALL_PHONE_ID);
-        }else{
-            permissions_call_phone_value = true;
-        }
-*/
-        lerFone();
+        lerEmail();
 
 
     }
 
 
-    public void lerFone() {
+    public void lerEmail() {
         if (checkInternetConection()){
             progressDialog = ProgressDialog.show(this, "", "Obtendo dados");
             new DownloadJson().execute("http://mfpledon.com.br/listadecontatos.json");
@@ -109,19 +102,12 @@ public class email extends AppCompatActivity {
             lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    //Toast.makeText(getApplicationContext(), "Item= " + myadapter.getItem(position),
-                    //Toast.LENGTH_SHORT).show();
-                    //  mostraDadosDoAluno(nomes[position]); //para mostrar dados do aluno "clicado"
-
-                    if(ContextCompat.checkSelfPermission(getApplicationContext() , Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
-                        Toast.makeText(getApplicationContext(), "\nAs ligações não foram autorizadas neste aparelho.\n", Toast.LENGTH_LONG).show();
-
-                    }else {
-                        String cel = "tel:" + ((Contato)parent.getAdapter().getItem(position)).getCelular();
-                        startActivity(new Intent(
-                                Intent.ACTION_CALL,
-                                Uri.parse(cel)));
-                    }
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("plain/text");
+                    intent.putExtra(Intent.EXTRA_EMAIL, new String[] { ((Contato)parent.getAdapter().getItem(position)).getEmail() });
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Projeto Programação Mobile");
+                    intent.putExtra(Intent.EXTRA_TEXT, "Projeto enviado, nota 10!");
+                    startActivity(Intent.createChooser(intent, ""));
                 }
             });
             progressDialog.dismiss();
